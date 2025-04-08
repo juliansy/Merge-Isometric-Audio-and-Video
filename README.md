@@ -2,7 +2,7 @@
 
 此项目源自对[Bilibili-Evolved](https://github.com/the1812/Bilibili-Evolved)脚本的一项功能的补充。作用是合并等长视频和音频。
 
-使用该脚本在用 **aria2 PRC 中的 dash**方式导出视频时，将会导出视频文件和音频文件。
+使用该脚本在用 **aria2 PRC 中的 dash** 方式导出视频时，将会导出视频文件和音频文件。
 
 本项目旨在借用 **FFmpeg** 用一个 **bash** 脚本**无损**合并这两个文件。
 
