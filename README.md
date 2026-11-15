@@ -21,7 +21,7 @@
 
 # Merge Audio and Video
 
-This script is for downloads that never got merged: the video has no sound, the audio sits in its own file, subtitles and cover art lie next to them. Put `merge_videos.py` and `merge.bat` into that folder and run it — video, audio, subtitles and cover become one `.mp4`. Video and audio are copied as they are, so nothing is re-encoded.
+This tool is for a download that finished without being assembled: one file holds the picture, another holds the sound, and the subtitles and cover art sit beside them. Put `merge_videos.py` and `merge.bat` into that folder and run it — you get one `.mp4` with all of them inside. Video and audio are copied as they are, so nothing is re-encoded.
 
 ## What it does
 
@@ -39,7 +39,7 @@ This script is for downloads that never got merged: the video has no sound, the 
 
 ## How to use
 
-Put `merge_videos.py` and `merge.bat` in the folder that holds the files.
+Put both files in the folder that holds the video, audio, subtitle and cover.
 
 | Action | Result |
 | --- | --- |
@@ -52,7 +52,7 @@ Put `merge_videos.py` and `merge.bat` in the folder that holds the files.
 
 | Option | Meaning |
 | --- | --- |
-| `-n`, `--dry-run` | Analyse only; nothing is written |
+| `-n`, `--dry-run` | Analyze only; nothing is written |
 | `-k`, `--keep` | Keep every source file |
 | `-p`, `--purge` | Also delete sidecars the video did not need |
 | `-j N` | Process N files at the same time |
