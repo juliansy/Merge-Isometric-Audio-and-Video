@@ -35,14 +35,16 @@ This tool is for a download that finished without being assembled: one file hold
 
 ## What a folder looks like
 
-The script works on files that share a name and a folder — only the extension differs.
+Put both script files into the folder. The media it picks up shares a name and differs only by extension.
 
 ```text
 D:\Videos\
-├── lecture-01.mp4      the video                        (required)
-├── lecture-01.m4a      its audio                        (optional)
-├── lecture-01.json     subtitles: .json .ass .srt .vtt  (optional)
-├── lecture-01.jpg      cover: .jpg .jpeg .png .webp     (optional)
+├── merge.bat           the launcher — double-click this
+├── merge_videos.py     the script it runs — keep both together
+├── lecture-01.mp4      the video (required)
+├── lecture-01.m4a      the audio (optional)
+├── lecture-01.json     subtitles (optional; .ass .srt .vtt also work)
+├── lecture-01.jpg      cover (optional; .jpeg .png .webp also work)
 └── podcast-02.mp4      a second video, same run
 ```
 
@@ -50,6 +52,8 @@ After a successful run the sidecars are gone and the videos carry everything:
 
 ```text
 D:\Videos\
+├── merge.bat
+├── merge_videos.py
 ├── lecture-01.mp4      video + audio + subtitles + cover
 └── podcast-02.mp4      video only, nothing to add
 ```

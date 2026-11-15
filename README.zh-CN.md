@@ -35,14 +35,16 @@
 
 ## 文件夹长什么样
 
-脚本只认“同目录、同文件名、只差扩展名”的配套文件。
+把这两个脚本文件也放进同一个文件夹。它只处理“同目录、同文件名、只差扩展名”的配套文件。
 
 ```text
 D:\Videos\
-├── lecture-01.mp4      视频                            （必需）
-├── lecture-01.m4a      音频                            （可选）
-├── lecture-01.json     字幕：.json .ass .srt .vtt      （可选）
-├── lecture-01.jpg      封面：.jpg .jpeg .png .webp     （可选）
+├── merge.bat           启动器，双击运行它
+├── merge_videos.py     真正干活的脚本（和 merge.bat 放一起）
+├── lecture-01.mp4      视频（必需）
+├── lecture-01.m4a      音频（可选）
+├── lecture-01.json     字幕（可选，也可以是 .ass .srt .vtt）
+├── lecture-01.jpg      封面（可选，也可以是 .jpeg .png .webp）
 └── podcast-02.mp4      第二个视频，同一次处理
 ```
 
@@ -50,6 +52,8 @@ D:\Videos\
 
 ```text
 D:\Videos\
+├── merge.bat
+├── merge_videos.py
 ├── lecture-01.mp4      视频 + 音频 + 字幕 + 封面
 └── podcast-02.mp4      只有视频，没有可补的
 ```
