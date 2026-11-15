@@ -14,14 +14,16 @@
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D4?logo=windows&logoColor=white)
 ![FFmpeg](https://img.shields.io/badge/ffmpeg-required-4C566A)
 ![License](https://img.shields.io/badge/license-MIT-2EA043)
-[![Release](https://img.shields.io/github/v/release/juliansy/Merge-Isometric-Audio-and-Video?color=orange&label=release)](https://github.com/juliansy/Merge-Isometric-Audio-and-Video/releases)
-![Stars](https://img.shields.io/github/stars/juliansy/Merge-Isometric-Audio-and-Video?color=yellow)
+[![Release](https://img.shields.io/github/v/release/juliansy/merge-media?color=orange&label=release)](https://github.com/juliansy/merge-media/releases)
+![Stars](https://img.shields.io/github/stars/juliansy/merge-media?color=yellow)
 
 </div>
 
 # Merge Audio and Video
 
 This tool is for a download that finished without being assembled: one file holds the picture, another holds the sound, and the subtitles and cover art sit beside them. Put `merge_videos.py` and `merge.bat` into that folder and run it — you get one `.mp4` with all of them inside. Video and audio are copied as they are, so nothing is re-encoded.
+
+**Download:** [latest release](https://github.com/juliansy/merge-media/releases/latest) — a zip with `merge_videos.py`, `merge.bat`, both READMEs and the license.
 
 ## What it does
 
@@ -31,6 +33,29 @@ This tool is for a download that finished without being assembled: one file hold
 - Adds only what is missing: audio, subtitles and cover already inside the video stay untouched.
 - Prints what it merged and whether the result is complete.
 
+## What a folder looks like
+
+The script works on files that share a name and a folder — only the extension differs.
+
+```text
+D:\Videos\
+├── lecture-01.mp4      the video                        (required)
+├── lecture-01.m4a      its audio                        (optional)
+├── lecture-01.json     subtitles: .json .ass .srt .vtt  (optional)
+├── lecture-01.jpg      cover: .jpg .jpeg .png .webp     (optional)
+└── podcast-02.mp4      a second video, same run
+```
+
+After a successful run the sidecars are gone and the videos carry everything:
+
+```text
+D:\Videos\
+├── lecture-01.mp4      video + audio + subtitles + cover
+└── podcast-02.mp4      video only, nothing to add
+```
+
+Use `-k` if you want the sidecars kept. A file whose name matches no video is left alone and listed at the end.
+
 ## Requirements
 
 - Windows 10 or 11
@@ -39,14 +64,24 @@ This tool is for a download that finished without being assembled: one file hold
 
 ## How to use
 
-Put both files in the folder that holds the video, audio, subtitles and cover.
+Put both files in the folder that holds the video, audio, subtitles and cover, then pick the line for your terminal.
+
+| Where | What to type |
+| --- | --- |
+| File Explorer | double-click `merge.bat` |
+| cmd | `merge.bat -n "D:\Videos"` |
+| PowerShell / pwsh | `.\merge.bat -n "D:\Videos"` or `& "D:\Videos\merge.bat" -n` |
+| Git Bash | `./merge.bat -n "D:/Videos"` |
+| WSL | `cmd.exe /c merge.bat -n "D:\Videos"` |
+
+PowerShell does not run programs from the current folder, so a bare `merge.bat` fails with `CommandNotFoundException` — that is what the `.\` is for. In cmd the bare name is fine.
+
+Dropping things on the icon works too:
 
 | Action | Result |
 | --- | --- |
-| Double-click `merge.bat` | Merges every video in that folder |
 | Drop a folder onto `merge.bat` | Merges that folder; add `-R` to include subfolders |
 | Drop a single `.mp4` onto `merge.bat` | Merges only that file |
-| `merge.bat -n` | Shows the plan and writes nothing |
 
 ### Options
 

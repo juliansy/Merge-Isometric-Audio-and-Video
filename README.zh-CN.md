@@ -14,14 +14,16 @@
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D4?logo=windows&logoColor=white)
 ![FFmpeg](https://img.shields.io/badge/ffmpeg-required-4C566A)
 ![License](https://img.shields.io/badge/license-MIT-2EA043)
-[![Release](https://img.shields.io/github/v/release/juliansy/Merge-Isometric-Audio-and-Video?color=orange&label=release)](https://github.com/juliansy/Merge-Isometric-Audio-and-Video/releases)
-![Stars](https://img.shields.io/github/stars/juliansy/Merge-Isometric-Audio-and-Video?color=yellow)
+[![Release](https://img.shields.io/github/v/release/juliansy/merge-media?color=orange&label=release)](https://github.com/juliansy/merge-media/releases)
+![Stars](https://img.shields.io/github/stars/juliansy/merge-media?color=yellow)
 
 </div>
 
 # 合并音频视频
 
 这个脚本针对的是一种情况：下载已经完成，但文件没有合并——画面在一个文件里，声音在另一个文件里，字幕和封面放在旁边。把 `merge_videos.py` 和 `merge.bat` 放进这个文件夹并运行，就能得到一个包含这些东西的 `.mp4`。音视频按原样复制，不重新编码。
+
+**下载：**[最新版本](https://github.com/juliansy/merge-media/releases/latest)——压缩包里是 `merge_videos.py`、`merge.bat`、两份 README 和许可证。
 
 ## 它做什么
 
@@ -31,6 +33,29 @@
 - 只补缺的：视频里已有的音频、字幕、封面一律原样保留。
 - 打印这次并入了什么，以及结果是否齐全。
 
+## 文件夹长什么样
+
+脚本只认“同目录、同文件名、只差扩展名”的配套文件。
+
+```text
+D:\Videos\
+├── lecture-01.mp4      视频                            （必需）
+├── lecture-01.m4a      音频                            （可选）
+├── lecture-01.json     字幕：.json .ass .srt .vtt      （可选）
+├── lecture-01.jpg      封面：.jpg .jpeg .png .webp     （可选）
+└── podcast-02.mp4      第二个视频，同一次处理
+```
+
+成功之后附件被删掉，视频里什么都有：
+
+```text
+D:\Videos\
+├── lecture-01.mp4      视频 + 音频 + 字幕 + 封面
+└── podcast-02.mp4      只有视频，没有可补的
+```
+
+想留着附件就加 `-k`。名字对不上任何视频的文件不会被碰，只会在最后的汇总里列出来。
+
 ## 需要什么
 
 - Windows 10 或 11
@@ -39,14 +64,24 @@
 
 ## 怎么用
 
-把这两个文件放进存放视频、音频、字幕、封面的文件夹。
+把这两个文件放进存放视频、音频、字幕、封面的文件夹，然后按你用的终端选一行。
+
+| 你在哪 | 怎么写 |
+| --- | --- |
+| 资源管理器 | 双击 `merge.bat` |
+| cmd | `merge.bat -n "D:\Videos"` |
+| PowerShell / pwsh | `.\merge.bat -n "D:\Videos"` 或 `& "D:\Videos\merge.bat" -n` |
+| Git Bash | `./merge.bat -n "D:/Videos"` |
+| WSL | `cmd.exe /c merge.bat -n "D:\Videos"` |
+
+PowerShell 不从当前目录运行程序，直接写 `merge.bat` 会报 `CommandNotFoundException`——`.\` 就是为这个加的；cmd 里不加也能跑。
+
+也可以直接把东西拖到图标上：
 
 | 操作 | 结果 |
 | --- | --- |
-| 双击 `merge.bat` | 合并该文件夹里的所有视频 |
 | 把文件夹拖到 `merge.bat` 上 | 合并那个文件夹；加 `-R` 连子目录 |
 | 把单个 `.mp4` 拖到 `merge.bat` 上 | 只合并这一个文件 |
-| `merge.bat -n` | 只列出计划，不写任何文件 |
 
 ### 选项
 
