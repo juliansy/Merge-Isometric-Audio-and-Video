@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# Merge leftovers
+*.mergetmp.*
+
+# Sample media
+*.mp4
+*.m4a
+*.mkv
+*.webm
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
