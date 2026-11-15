@@ -1,4 +1,4 @@
 * text=auto
-*.bat text eol=crlf linguist-detectable=true
-*.py text eol=lf linguist-detectable=true
+*.bat text eol=crlf linguist-detectable=true linguist-language=Batchfile
+*.py text eol=lf linguist-detectable=true linguist-language=Python
 *.md text eol=lf
