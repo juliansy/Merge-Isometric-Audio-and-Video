@@ -1,7 +1,10 @@
-
 <div align="center">
 
+<br>
+
 [简体中文](README.zh-CN.md) · **English**
+
+<br>
 
 </div>
 
@@ -18,50 +21,48 @@
 
 # Merge Audio and Video
 
-Downloads often arrive in pieces: a video with no sound, the audio in a separate file, subtitles and cover art lying next to them. Drop this tool into that folder and they come back together as one normal `.mp4` — no re-encoding, no quality loss.
+This script is for downloads that never got merged: the video has no sound, the audio sits in its own file, subtitles and cover art lie next to them. Put `merge_videos.py` and `merge.bat` into that folder and run it — video, audio, subtitles and cover become one `.mp4`. Video and audio are copied as they are, so nothing is re-encoded.
 
 ## What it does
 
-- **Mux** `name.mp4` + `name.m4a` into one `name.mp4` (stream copy).
-- **Embed subtitles** from a same-name `.json` (Bilibili subtitle export), `.ass`, `.srt`, or `.vtt`.
-- **Attach a cover** from a same-name `.jpg`, `.jpeg`, `.png`, or `.webp` (converted on the fly).
-- **Add only what is missing.** Audio, subtitles and cover already inside the video are kept as they are.
-- **Report honestly** — which files were merged, what went in, and whether each result is complete.
-
-Works well with Bilibili-Evolved's DASH export and aria2 batch downloads.
+- Merges `name.mp4` and `name.m4a` into one `name.mp4`.
+- Embeds a same-name subtitle: `.json` (Bilibili subtitle export), `.ass`, `.srt` or `.vtt`.
+- Attaches a same-name cover: `.jpg`, `.jpeg`, `.png` or `.webp`; anything that is not JPEG is converted first.
+- Adds only what is missing: audio, subtitles and cover already inside the video stay untouched.
+- Prints what it merged and whether the result is complete.
 
 ## Requirements
 
 - Windows 10 or 11
-- [FFmpeg](https://ffmpeg.org/download.html) — `ffmpeg.exe` and `ffprobe.exe` on `PATH`
-- Python 3.9 or newer (standard library only)
+- [FFmpeg](https://ffmpeg.org/download.html): `ffmpeg.exe` and `ffprobe.exe` on `PATH`
+- Python 3.9 or newer; no extra packages
 
-## Use
+## How to use
 
-Put `merge_videos.py` and `merge.bat` in the folder you want to process.
+Put `merge_videos.py` and `merge.bat` in the folder that holds the files.
 
 | Action | Result |
 | --- | --- |
-| Double-click `merge.bat` | Merge every video in that folder |
-| Drop a folder onto `merge.bat` | Merge that folder (add `-R` for subfolders) |
-| Drop a `.mp4` onto `merge.bat` | Merge only that file |
-| `merge.bat -n` | Dry run — shows the plan, writes nothing |
+| Double-click `merge.bat` | Merges every video in that folder |
+| Drop a folder onto `merge.bat` | Merges that folder; add `-R` to include subfolders |
+| Drop a single `.mp4` onto `merge.bat` | Merges only that file |
+| `merge.bat -n` | Shows the plan and writes nothing |
 
 ### Options
 
 | Option | Meaning |
 | --- | --- |
-| `-n`, `--dry-run` | Analyse only, nothing is written |
+| `-n`, `--dry-run` | Analyse only; nothing is written |
 | `-k`, `--keep` | Keep every source file |
-| `-p`, `--purge` | Also delete sidecars the video didn't need |
+| `-p`, `--purge` | Also delete sidecars the video did not need |
 | `-j N` | Process N files at the same time |
 | `-R` | Include subfolders |
-| `--sub-lang LANG` | Language tag for added subtitles (`auto` by default) |
+| `--sub-lang LANG` | Language tag for added subtitles; `auto` by default |
 | `-V` | Print the version |
 
-`python merge_videos.py -h` lists everything.
+`python merge_videos.py -h` lists every option.
 
-### What you see
+### Output
 
 ```text
 #  文件            原有        目录        动作 并入           结果                  耗时
@@ -72,25 +73,22 @@ Put `merge_videos.py` and `merge.bat` in the folder you want to process.
      └ 无可合并素材（缺 音频/字幕/封面）
 
 合并 1 个，跳过 1 个，失败 0 个。
-本次并入：音频 1 个，字幕 1 个，封面 1 个。
-齐全 1 个，不齐全 0 个。
 ```
 
-The columns read left to right: what the video **has**, what the **folder** offers, what was actually **merged in**, and whether the result is now **complete**.
+The console output is in Chinese. Read the columns left to right: what the video **has**, what the **folder** offers, what was **merged in**, and whether the result is **complete** now.
 
 ## Safety
 
-- Sources are never edited in place: the output goes to a temp file, is verified, then swapped in.
-- A failed file leaves every source untouched; the exit code is `1`.
-- Sidecars are deleted only after a verified merge. Use `-k` to keep them and `-n` to preview.
+- Source files are never edited in place. The result is written to a temp file, checked, then swapped in.
+- If one file fails, its sources stay exactly as they were; the exit code is `1`.
+- Sidecars are deleted only after a merge has been verified. Use `-k` to keep them, `-n` to preview.
 - Files that are already complete are skipped, never rewritten.
 
 ## Limitations
 
-- Subtitles end up as `mov_text` (an mp4 limitation): text and timing survive, styling and positioning do not.
-- One new audio track and one new subtitle track per video; existing tracks are preserved as-is.
-- Command-line messages are in Chinese.
-- Paths longer than 260 characters may fail inside FFmpeg on older Windows builds.
+- Subtitles are stored as `mov_text`, the only subtitle format mp4 plays: text and timing survive, styling and positioning do not.
+- One new audio track and one new subtitle track per video; existing tracks are kept as they are.
+- Paths longer than 260 characters can fail inside FFmpeg on older Windows builds.
 
 ## License
 
