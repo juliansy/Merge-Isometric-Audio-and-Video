@@ -39,7 +39,7 @@ This tool is for a download that finished without being assembled: one file hold
 
 ## How to use
 
-Put both files in the folder that holds the video, audio, subtitle and cover.
+Put both files in the folder that holds the video, audio, subtitles and cover.
 
 | Action | Result |
 | --- | --- |
