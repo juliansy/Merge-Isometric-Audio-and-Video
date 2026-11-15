@@ -73,6 +73,8 @@ Put `merge_videos.py` and `merge.bat` in the folder that holds the files.
      └ 无可合并素材（缺 音频/字幕/封面）
 
 合并 1 个，跳过 1 个，失败 0 个。
+本次并入：音频 1 个，字幕 1 个，封面 1 个。
+齐全 1 个，不齐全 0 个。
 ```
 
 The console output is in Chinese. Read the columns left to right: what the video **has**, what the **folder** offers, what was **merged in**, and whether the result is **complete** now.
