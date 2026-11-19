@@ -48,7 +48,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Callable, Iterable, Iterator, Optional, Sequence
 
-VERSION = "1.4.0"
+VERSION = "1.4.1"
 
 AUDIO_EXTS = (".m4a", ".aac", ".mp3")
 SUB_EXTS = (".ass", ".srt", ".json", ".vtt")
@@ -1154,6 +1154,27 @@ def status_line(result: Result) -> str:
 # --------------------------------------------------------------------------- #
 # 命令行
 # --------------------------------------------------------------------------- #
+LAUNCHER_HINTS = {
+    "1": "[退出码 1] 有文件未能合并，源文件未改动。详见上方汇总。",
+    "2": "[退出码 2] 参数或运行环境有问题。详见上方错误信息。",
+    "130": "[退出码 130] 运行被中断，源文件未改动。",
+}
+
+
+def emit_hint(code: str) -> None:
+    """启动器专用：把退出码翻成一句中文提示。
+
+    启动器 .bat 必须保持纯 ASCII——UTF-8 批处理文件里执行 chcp 会让 cmd
+    在解析中途切换解码器、丢掉字节偏移，最后把某一行的尾巴当成命令执行。
+    中文提示因此全部放在这里打印。
+    """
+    text = LAUNCHER_HINTS.get(code) or f"[退出码 {code}] 运行结束。"
+    try:
+        print(text, flush=True)
+    except OSError:
+        pass
+
+
 def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="merge_videos.py",
@@ -1180,6 +1201,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--ffprobe", help="ffprobe 路径")
     parser.add_argument("--log", help="同时写入日志文件")
     parser.add_argument("--no-pause", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--hint", metavar="CODE", help=argparse.SUPPRESS)
     parser.add_argument("-V", "--version", action="version", version=f"merge_videos {VERSION}")
     return parser.parse_args(argv)
 
@@ -1192,6 +1214,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             pass
 
     args = parse_args(argv)
+
+    if args.hint is not None:
+        emit_hint(args.hint)
+        return 0
 
     log_path: Optional[Path] = None
     if args.log:
